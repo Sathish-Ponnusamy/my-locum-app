@@ -2,7 +2,7 @@
   "name": "my-locum-app",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://sathish-ponnusamy.github.io/my-locum-app",
+  "homepage": "/my-locum-app/",
   "type": "module",
   "scripts": {
     "dev": "vite",
