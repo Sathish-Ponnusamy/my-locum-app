@@ -233,7 +233,7 @@ const DashboardPage = ({ shifts }) => {
                   <span className="font-medium text-gray-700">{agency.name}</span>
                   <p className="text-xs text-gray-500">{agency.shifts} shifts</p>
                 </div>
-                <span className="text-lg font-bold text-gray-800">
+                <span className="font-bold text-lg text-gray-800">
                   {currencyFormatter.format(agency.salary)}
                 </span>
               </div>
@@ -585,10 +585,8 @@ const loadScript = (src) => {
 const App = () => {
   // --- Google Sheets API URL ---
   // !!! PASTE THE URL YOU GOT FROM DEPLOYING YOUR APPS SCRIPT HERE !!!
-  const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyW9_BqE8_e0SbcNjUsDD5Oqdw-oQBRIuadHGkS4a45ugOd0LAF0_XnAWbwK2fgb_ZNVg/exec";
+  const GOOGLE_SCRIPT_URL = "Phttps://script.google.com/macros/s/AKfycbyW9_BqE8_e0SbcNjUsDD5Oqdw-oQBRIuadHGkS4a45ugOd0LAF0_XnAWbwK2fgb_ZNVg/exec";
 
-  // --- REMOVED ALL FIREBASE STATE ---
-  
   // --- SIMPLIFIED STATE ---
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -617,13 +615,11 @@ const App = () => {
     });
   }, []);
 
-  // --- REMOVED FIREBASE AUTH EFFECT ---
 
-
-  // --- Firestore Listener Effect (REPLACED with Google Sheets Fetch) ---
+  // --- Google Sheets Fetch Function ---
   const fetchShifts = useCallback(async () => {
     if (GOOGLE_SCRIPT_URL === "PASTE_YOUR_APPS_SCRIPT_URL_HERE") {
-      setError("API Error: You must paste your Google Apps Script URL into App.jsx (line 720).");
+      setError("API Error: You must paste your Google Apps Script URL into App.jsx.");
       setIsLoading(false);
       return;
     }
@@ -712,12 +708,11 @@ const App = () => {
     const shiftToSave = {
       ...newShift,
       daySalary: calculateSalary(newShift.hours, newShift.rate),
-      // We don't need userId or createdAt unless we add it to the sheet
+      // The Apps Script generates the 'id'
     };
     
     try {
       // We send as 'text/plain' to avoid a CORS preflight OPTIONS request
-      // The Apps Script is set up to parse this stringified JSON
       const response = await fetch(GOOGLE_SCRIPT_URL, {
         method: 'POST',
         headers: {
@@ -745,7 +740,7 @@ const App = () => {
 
   // Function to render the current page based on state
   const renderPage = () => {
-    // Simplified loading/auth check
+    // Simplified loading check
     if (isLoading) {
       return (
         <div className="text-center p-12 bg-white rounded-xl shadow-2xl max-w-md mx-auto mt-16">
@@ -804,7 +799,6 @@ const App = () => {
             </div>
             
             <div className="flex items-center">
-              {/* Removed Role and UserID display as they came from Firebase Auth */}
               <span className="text-sm font-medium text-gray-500">Powered by Google Sheets</span>
             </div>
           </div>
@@ -853,4 +847,3 @@ const App = () => {
 };
 
 export default App;
-
